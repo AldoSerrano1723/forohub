@@ -31,4 +31,10 @@ public class TopicoController {
         var page = service.listarTopicos(pageable);
         return ResponseEntity.ok(page);
     }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<DatosListadoTopico> detallesTopico(@PathVariable Long id){
+        return ResponseEntity.ok(service.detallesTopico(id));
+    }
+
 }

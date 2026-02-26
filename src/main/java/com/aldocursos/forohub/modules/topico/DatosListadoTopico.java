@@ -11,7 +11,7 @@ public record DatosListadoTopico(
         LocalDateTime fechaCreacion,
         Estado status,
         String nombreAutor,
-        Curso curos
+        Curso curso
 ) {
     public DatosListadoTopico(Topico topico){
         this(

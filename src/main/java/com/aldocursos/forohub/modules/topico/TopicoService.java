@@ -38,4 +38,9 @@ public class TopicoService {
     public Page<DatosListadoTopico> listarTopicos(Pageable pageable) {
         return topicoRepository.findAll(pageable).map(DatosListadoTopico::new);
     }
+
+    public DatosListadoTopico detallesTopico(Long id) {
+        var topico = topicoRepository.getReferenceById(id);
+        return new DatosListadoTopico(topico);
+    }
 }
