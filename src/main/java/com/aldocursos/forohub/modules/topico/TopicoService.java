@@ -3,9 +3,12 @@ package com.aldocursos.forohub.modules.topico;
 import com.aldocursos.forohub.modules.ValidacionException;
 import com.aldocursos.forohub.modules.usuario.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 public class TopicoService {
@@ -30,5 +33,9 @@ public class TopicoService {
 
         Topico topico = new Topico(null, datos.titulo(), datos.mensaje(), LocalDateTime.now(), datos.status(), usuario.get(), datos.curso());
         topicoRepository.save(topico);
+    }
+
+    public Page<DatosListadoTopico> listarTopicos(Pageable pageable) {
+        return topicoRepository.findAll(pageable).map(DatosListadoTopico::new);
     }
 }
