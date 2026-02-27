@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 public class GestorDeErrores {
 
     @ExceptionHandler(EntityNotFoundException.class)
-    public ResponseEntity gestionarError404(){
+    public ResponseEntity gestionarError404(EntityNotFoundException ex) {
         return ResponseEntity.notFound().build();
     }
 

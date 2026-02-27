@@ -2,6 +2,7 @@ package com.aldocursos.forohub.modules.topico;
 
 import com.aldocursos.forohub.modules.ValidacionException;
 import com.aldocursos.forohub.modules.usuario.UsuarioRepository;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -40,7 +41,13 @@ public class TopicoService {
     }
 
     public DatosListadoTopico detallesTopico(Long id) {
-        var topico = topicoRepository.getReferenceById(id);
-        return new DatosListadoTopico(topico);
+        var topico = topicoRepository.findById(id);
+
+        if (topico.isEmpty()) {
+            throw new EntityNotFoundException("Topico no existe con ese ID");
+        }else {
+            return new DatosListadoTopico(topico.get());
+        }
+
     }
 }
