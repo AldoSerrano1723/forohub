@@ -38,7 +38,7 @@ public class Topico {
     @Enumerated(EnumType.STRING)
     private Curso curso;
 
-    public void actulizarInformacion(DatosActualizacionTopico datos) {
+    public void actualizarInformacion(DatosActualizacionTopico datos) {
         if (datos.titulo() != null && !datos.titulo().isBlank()) {
             this.titulo = datos.titulo();
         }

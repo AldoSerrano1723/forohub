@@ -3,7 +3,6 @@ package com.aldocursos.forohub.modules.topico;
 import com.aldocursos.forohub.modules.ValidacionException;
 import com.aldocursos.forohub.modules.usuario.UsuarioRepository;
 import jakarta.persistence.EntityNotFoundException;
-import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -52,16 +51,18 @@ public class TopicoService {
 
     public DatosListadoTopico actualizarDatosDeTopico(Long id, DatosActualizacionTopico datos) {
 
+        var topicoABuscar = topicoRepository.findById(id);
+
+        if (topicoABuscar.isEmpty()){
+            throw new EntityNotFoundException("Topico no existe con ID");
+        }
+
         if (topicoRepository.existsByTituloAndMensaje(datos.titulo(), datos.mensaje())){
             throw new ValidacionException("Topico con ese titulo y mensaje ya existe");
         }
 
-        if (topicoRepository.findById(id).isEmpty()){
-            throw new EntityNotFoundException("Topico no existe con ID");
-        }
-
-        var topico =  topicoRepository.findById(id).get();
-        topico.actulizarInformacion(datos);
+        var topico =  topicoABuscar.get();
+        topico.actualizarInformacion(datos);
         return new DatosListadoTopico(topico);
     }
 }

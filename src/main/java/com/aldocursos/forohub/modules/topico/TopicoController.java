@@ -37,9 +37,9 @@ public class TopicoController {
 
     @PutMapping("/{id}")
     @Transactional
-    public ResponseEntity<DatosListadoTopico> actulizar(@PathVariable Long id, @RequestBody @Valid DatosActualizacionTopico datos){
-        var topicoActulizado = service.actualizarDatosDeTopico(id, datos);
-        return ResponseEntity.ok(topicoActulizado);
+    public ResponseEntity<DatosListadoTopico> actualizar(@PathVariable Long id, @RequestBody @Valid DatosActualizacionTopico datos){
+        var topicoActualizado = service.actualizarDatosDeTopico(id, datos);
+        return ResponseEntity.ok(topicoActualizado);
     }
 
 
