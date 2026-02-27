@@ -3,13 +3,13 @@ package com.aldocursos.forohub.modules.topico;
 import com.aldocursos.forohub.modules.ValidacionException;
 import com.aldocursos.forohub.modules.usuario.UsuarioRepository;
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Service
 public class TopicoService {
@@ -40,7 +40,7 @@ public class TopicoService {
         return topicoRepository.findAll(pageable).map(DatosListadoTopico::new);
     }
 
-    public DatosListadoTopico detallesTopico(Long id) {
+    public DatosListadoTopico mostrarTopicos(Long id) {
         var topico = topicoRepository.findById(id);
 
         if (topico.isEmpty()) {
@@ -48,6 +48,20 @@ public class TopicoService {
         }else {
             return new DatosListadoTopico(topico.get());
         }
+    }
 
+    public DatosListadoTopico actualizarDatosDeTopico(Long id, DatosActualizacionTopico datos) {
+
+        if (topicoRepository.existsByTituloAndMensaje(datos.titulo(), datos.mensaje())){
+            throw new ValidacionException("Topico con ese titulo y mensaje ya existe");
+        }
+
+        if (topicoRepository.findById(id).isEmpty()){
+            throw new EntityNotFoundException("Topico no existe con ID");
+        }
+
+        var topico =  topicoRepository.findById(id).get();
+        topico.actulizarInformacion(datos);
+        return new DatosListadoTopico(topico);
     }
 }

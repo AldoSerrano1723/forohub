@@ -10,8 +10,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 @RestController
 @RequestMapping("/topicos")
 public class TopicoController {
@@ -34,7 +32,16 @@ public class TopicoController {
 
     @GetMapping("/{id}")
     public ResponseEntity<DatosListadoTopico> detallesTopico(@PathVariable Long id){
-        return ResponseEntity.ok(service.detallesTopico(id));
+        return ResponseEntity.ok(service.mostrarTopicos(id));
     }
+
+    @PutMapping("/{id}")
+    @Transactional
+    public ResponseEntity<DatosListadoTopico> actulizar(@PathVariable Long id, @RequestBody @Valid DatosActualizacionTopico datos){
+        var topicoActulizado = service.actualizarDatosDeTopico(id, datos);
+        return ResponseEntity.ok(topicoActulizado);
+    }
+
+
 
 }
