@@ -44,9 +44,10 @@ public class TopicoService {
 
         if (topico.isEmpty()) {
             throw new EntityNotFoundException("Topico no existe con ese ID");
-        }else {
-            return new DatosListadoTopico(topico.get());
         }
+
+        return new DatosListadoTopico(topico.get());
+
     }
 
     public DatosListadoTopico actualizarDatosDeTopico(Long id, DatosActualizacionTopico datos) {
@@ -64,5 +65,15 @@ public class TopicoService {
         var topico =  topicoABuscar.get();
         topico.actualizarInformacion(datos);
         return new DatosListadoTopico(topico);
+    }
+
+    public void eliminar(Long id) {
+        var topicoABuscar = topicoRepository.findById(id);
+
+        if (topicoABuscar.isEmpty()){
+            throw new EntityNotFoundException("Topico no existe con ID");
+        }
+
+        topicoRepository.deleteById(id);
     }
 }

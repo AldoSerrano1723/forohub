@@ -19,7 +19,7 @@ public class TopicoController {
 
     @PostMapping
     @Transactional
-    public ResponseEntity registrarTopico(@RequestBody @Valid DatosRegistroTopico datos){
+    public ResponseEntity registrar(@RequestBody @Valid DatosRegistroTopico datos){
         service.registrar(datos);
         return ResponseEntity.ok().body("Registro exitoso");
     }
@@ -42,6 +42,10 @@ public class TopicoController {
         return ResponseEntity.ok(topicoActualizado);
     }
 
-
-
+    @DeleteMapping("/{id}")
+    @Transactional
+    public ResponseEntity eliminar(@PathVariable Long id){
+        service.eliminar(id);
+        return ResponseEntity.noContent().build();
+    }
 }
