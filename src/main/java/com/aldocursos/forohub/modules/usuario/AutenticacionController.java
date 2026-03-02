@@ -1,5 +1,7 @@
 package com.aldocursos.forohub.modules.usuario;
 
+import com.aldocursos.forohub.shared.security.DatosTokenJWT;
+import com.aldocursos.forohub.shared.security.TokenService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -17,12 +19,17 @@ public class AutenticacionController {
     @Autowired
     private AuthenticationManager manager;
 
+    @Autowired
+    private TokenService tokenService;
+
 
     @PostMapping
     public ResponseEntity iniciarSesion(@RequestBody @Valid DatosAutenticacion datos){
         var autenticacionToken = new UsernamePasswordAuthenticationToken(datos.email(), datos.password());
         var autenticacion = manager.authenticate(autenticacionToken);
-        return ResponseEntity.ok().body("Todo bien");
+        var usuario = (Usuario) autenticacion.getPrincipal();
+        var tokenJWT = tokenService.generarToken(usuario);
+        return ResponseEntity.ok(new DatosTokenJWT(tokenJWT));
     }
 
 }
